@@ -44,15 +44,28 @@ Tema editorial
 
 ## Stack tecnológico
 
-| Tecnología | Uso en el proyecto | Estado |
+### Orquestación
+| Tecnología | Rol | Estado |
 |---|---|---|
-| **Google ADK** | Orquestación multi-agente (SequentialAgent + ParallelAgent) | ✅ Implementado |
+| **Google ADK** | Director del sistema — orquesta los agentes con `SequentialAgent` y `ParallelAgent` | ✅ Implementado |
+| **MCP** | Contexto compartido entre agentes — conecta fuentes externas y gestiona el historial | 🔄 En desarrollo |
+
+### Modelo e IA
+| Tecnología | Rol | Estado |
+|---|---|---|
 | **Google Gemini 2.5 Flash** | Modelo base de todos los agentes | ✅ Implementado |
-| **LangChain** | Cadenas de procesamiento y prompts | ✅ Implementado |
-| **ChromaDB** | Base de datos vectorial para RAG | ✅ Implementado |
-| **Gemini Embeddings** | `text-embedding-004` para indexar artículos | ✅ Implementado |
-| **MCP** | Gestión de contexto entre agentes | 🔄 En desarrollo |
-| **Streamlit** | Interfaz visual | 🔄 En desarrollo |
+| **Gemini Embeddings** | `text-embedding-004` — vectorización de artículos para RAG | ✅ Implementado |
+
+### RAG y recuperación
+| Tecnología | Rol | Estado |
+|---|---|---|
+| **LangChain** | Lógica interna del RAG — conecta ChromaDB con Gemini y gestiona prompts complejos | ✅ Implementado |
+| **ChromaDB** | Base de datos vectorial — almacena y recupera artículos por similitud semántica | ✅ Implementado |
+
+### Interfaz
+| Tecnología | Rol | Estado |
+|---|---|---|
+| **Streamlit** | Interfaz visual para interactuar con el pipeline y el chatbot | 🔄 En desarrollo |
 
 ---
 
@@ -149,4 +162,4 @@ Concepto: flor de loto con circuitos integrados — naturaleza femenina potencia
 
 ## Autora
 
-**Paola León** · Google ADK · 2026
+**Pau** · Proyecto del curso de Machine Learning Engineer · Google ADK · 2026
