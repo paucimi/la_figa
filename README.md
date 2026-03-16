@@ -162,4 +162,4 @@ Concepto: flor de loto con circuitos integrados — naturaleza femenina potencia
 
 ## Autora
 
-**Pau** · Proyecto del curso de Machine Learning Engineer · Google ADK · 2026
+**Paola León** · Machine Learning Engineer · Google ADK · 2026
