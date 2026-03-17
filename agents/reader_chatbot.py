@@ -1,7 +1,7 @@
 from google.adk.agents import LlmAgent
 from google.adk.tools import FunctionTool
 from rag.retriever import buscar_articulos_similares
-from mcp.context_manager import get_conversation_context, save_conversation_context
+from context.context_manager import get_conversation_context, save_conversation_context
 from dotenv import load_dotenv
 import os
 

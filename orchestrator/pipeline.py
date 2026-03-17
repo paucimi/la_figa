@@ -42,5 +42,5 @@ def build_chatbot():
 
 
 if __name__ == "__main__":
-    # Puedes cambiar la localización aquí
-    run_editorial_pipeline(location="Madrid", auto_select=False)
+    print("Usa main.py para ejecutar el pipeline:")
+    print("  python main.py pipeline <tema>")

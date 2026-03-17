@@ -145,7 +145,7 @@ la_figa/
 ├── agents/               # Los 5 agentes ADK
 ├── orchestrator/         # Pipeline multi-agente
 ├── rag/                  # Sistema RAG con embeddings
-├── mcp/                  # Model Context Protocol
+├── context/              # Gestión de contexto conversacional (MCP)
 ├── tools/                # Herramientas compartidas
 ├── data/                 # Artículos base y ChromaDB
 ├── ui/                   # Interfaz Streamlit
