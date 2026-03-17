@@ -4,12 +4,13 @@ from agents.content_writer import content_writer_agent
 from agents.rag_recommender import rag_recommender_agent
 from agents.reader_chatbot import reader_chatbot_agent
 from agents.social_publisher import social_publisher_agent
+from agents.content_moderator import content_moderator_agent
 
 
 def build_editorial_pipeline():
     """
     Pipeline principal de La Figa.
-    Flujo: Trend Scout → Content Writer → [RAG + Social] en paralelo
+    Flujo: Trend Scout → Content Writer → [RAG + Social] en paralelo → Moderador
     """
 
     # Fase 2: RAG y Social en paralelo (no dependen entre sí)
@@ -30,6 +31,7 @@ def build_editorial_pipeline():
             trend_scout_agent(),
             content_writer_agent(),
             fase_publicacion,
+            content_moderator_agent(),
         ]
     )
 

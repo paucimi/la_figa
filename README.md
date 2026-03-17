@@ -35,7 +35,13 @@ Tema editorial
 ┌──────────┐  ┌──────────────────┐
 │   RAG    │  │ Social Publisher │
 │Recommender│  │ Instagram/X/TikTok│
-└──────────┘  └──────────────────┘
+└────┬─────┘  └────────┬─────────┘
+     └────────┬─────────┘
+              │
+              ▼
+   ┌──────────────────────┐
+   │  Content Moderator   │  → Revisa y aprueba antes de publicar
+   └──────────────────────┘
 
 + Reader Chatbot (agente independiente para lectoras/es)
 ```
@@ -86,6 +92,9 @@ Agente conversacional para lectoras y lectores. Responde preguntas sobre sexuali
 ### 5. Social Publisher
 Adapta el contenido editorial a formatos optimizados para Instagram, Twitter/X y TikTok.
 
+### 6. Content Moderator
+Revisa el artículo y los posts generados antes de publicar. Evalúa precisión, tono editorial, calidad y riesgo de plataforma, y emite un veredicto: **APROBADO**, **APROBADO CON CAMBIOS** o **RECHAZADO**.
+
 ---
 
 ## Estado del proyecto
@@ -103,6 +112,7 @@ Adapta el contenido editorial a formatos optimizados para Instagram, Twitter/X y
 - [x] Interfaz Streamlit
 - [x] Herramientas compartidas (tools/)
 - [x] CLI (`main.py`) con comandos `pipeline`, `chatbot` y `cargar-articulos`
+- [x] Agente Content Moderator
 
 ---
 
