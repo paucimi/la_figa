@@ -160,6 +160,17 @@ Concepto: flor de loto con circuitos integrados — naturaleza femenina potencia
 
 ---
 
+## Trabajo futuro
+
+- **Google Auth Platform** — login de lectoras con cuenta Google para personalizar el chatbot y guardar historial de conversaciones
+- **Base de datos persistente** — migrar el contexto MCP de memoria a Firestore o PostgreSQL
+- **API REST** — exponer los agentes como endpoints para integrar con otras plataformas
+- **Despliegue en Cloud Run** — hacer la app pública con Streamlit desplegado en Google Cloud
+- **Agente moderador** — revisar contenido generado antes de publicar
+- **Newsletter automatizada** — pipeline semanal que genera y envía contenido por email
+
+---
+
 ## Autora
 
 **Paola León** · Machine Learning Engineer · Google ADK · 2026
