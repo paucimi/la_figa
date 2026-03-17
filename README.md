@@ -48,7 +48,7 @@ Tema editorial
 | Tecnología | Rol | Estado |
 |---|---|---|
 | **Google ADK** | Director del sistema — orquesta los agentes con `SequentialAgent` y `ParallelAgent` | ✅ Implementado |
-| **MCP** | Contexto compartido entre agentes — conecta fuentes externas y gestiona el historial | 🔄 En desarrollo |
+| **MCP** | Contexto compartido entre agentes — conecta fuentes externas y gestiona el historial | ✅ Implementado |
 
 ### Modelo e IA
 | Tecnología | Rol | Estado |
@@ -65,7 +65,7 @@ Tema editorial
 ### Interfaz
 | Tecnología | Rol | Estado |
 |---|---|---|
-| **Streamlit** | Interfaz visual para interactuar con el pipeline y el chatbot | 🔄 En desarrollo |
+| **Streamlit** | Interfaz visual para interactuar con el pipeline y el chatbot | ✅ Implementado |
 
 ---
 
@@ -96,12 +96,13 @@ Adapta el contenido editorial a formatos optimizados para Instagram, Twitter/X y
 - [x] Agente RAG Recommender
 - [x] Sistema de embeddings con ChromaDB
 - [x] Orquestador ADK (SequentialAgent + ParallelAgent)
-- [ ] Agente Reader Chatbot
-- [ ] Agente Social Publisher
-- [ ] Integración MCP
-- [ ] Datos de ejemplo para RAG
-- [ ] Interfaz Streamlit
-- [ ] Herramientas compartidas (tools/)
+- [x] Agente Reader Chatbot
+- [x] Agente Social Publisher
+- [x] Integración MCP
+- [x] Datos de ejemplo para RAG
+- [x] Interfaz Streamlit
+- [x] Herramientas compartidas (tools/)
+- [x] CLI (`main.py`) con comandos `pipeline`, `chatbot` y `cargar-articulos`
 
 ---
 
@@ -120,7 +121,7 @@ pip install -r requirements.txt
 
 # 4. Configurar variables de entorno
 cp .env.example .env
-# Edita .env con tu GOOGLE_API_KEY
+# Edita .env con tu GEMINI_API_KEY
 ```
 
 ---

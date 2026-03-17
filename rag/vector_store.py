@@ -7,7 +7,7 @@ def get_vector_store():
     client = chromadb.PersistentClient(path="data/chroma_db")
 
     gemini_ef = embedding_functions.GoogleGenerativeAiEmbeddingFunction(
-        api_key=os.getenv("GOOGLE_API_KEY"),
+        api_key=os.getenv("GEMINI_API_KEY"),
         model_name="models/text-embedding-004"
     )
 
