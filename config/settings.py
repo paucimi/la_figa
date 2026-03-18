@@ -12,11 +12,11 @@ NEWSPAPER_NAME = os.getenv("NEWSPAPER_NAME", "Doxas")
 GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
 LANGUAGE = os.getenv("LANGUAGE", "español")
 
-ARTICLES_DIR = "data/articles"
+ARTICLES_DIR = os.getenv("ARTICLES_DIR", "data/articles")
 os.makedirs(ARTICLES_DIR, exist_ok=True)
 
-CHROMA_DIR = "data/chroma_db"
+CHROMA_DIR = os.getenv("CHROMA_DIR", "/tmp/chroma_db")
 os.makedirs(CHROMA_DIR, exist_ok=True)
 
-SESSIONS_DIR = "data/sessions"
+SESSIONS_DIR = os.getenv("SESSIONS_DIR", "/tmp/sessions")
 os.makedirs(SESSIONS_DIR, exist_ok=True)
