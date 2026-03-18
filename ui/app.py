@@ -54,22 +54,30 @@ def _extract_excerpt(texto: str, chars: int = 220) -> str:
 @app.on_event("startup")
 def startup():
     ruta = os.path.join(os.path.dirname(os.path.dirname(__file__)), "data", "articles", "sample_articles.json")
-    if os.path.exists(ruta):
-        with open(ruta, "r", encoding="utf-8") as f:
-            articulos = json.load(f)
+    if not os.path.exists(ruta):
+        return
+
+    with open(ruta, "r", encoding="utf-8") as f:
+        articulos = json.load(f)
+
+    # Poblar portada (no depende de la API key)
+    for a in articulos:
+        _articles.append({
+            "id": a["id"],
+            "tema": "Archivo",
+            "titulo": a["titulo"],
+            "extracto": _extract_excerpt(a.get("contenido", "")),
+            "articulo": a.get("contenido", ""),
+            "posts": "",
+            "recomendaciones": "",
+            "fecha": "ARCHIVO · LA FIGA",
+        })
+
+    # Cargar embeddings en ChromaDB (requiere API key — fallo no es crítico)
+    try:
         cargar_articulos(articulos)
-        # Poblar portada con artículos de muestra
-        for a in articulos:
-            _articles.append({
-                "id": a["id"],
-                "tema": "Archivo",
-                "titulo": a["titulo"],
-                "extracto": _extract_excerpt(a.get("contenido", "")),
-                "articulo": a.get("contenido", ""),
-                "posts": "",
-                "recomendaciones": "",
-                "fecha": "ARCHIVO · LA FIGA",
-            })
+    except Exception as e:
+        print(f"⚠️  ChromaDB no inicializado: {e}")
 
 
 # ── Static files ───────────────────────────────────────────────────────────
