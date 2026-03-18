@@ -41,6 +41,3 @@ def build_chatbot():
     return reader_chatbot_agent()
 
 
-if __name__ == "__main__":
-    # Puedes cambiar la localización aquí
-    run_editorial_pipeline(location="Madrid", auto_select=False)

@@ -1,27 +1,27 @@
 from google.adk.agents import LlmAgent
 from google.adk.tools import FunctionTool
 from rag.retriever import buscar_articulos_similares
-from dotenv import load_dotenv
-import os
+from config.settings import GEMINI_MODEL, LANGUAGE
 
-load_dotenv()
+SYSTEM_PROMPT = f"""
+Eres el agente de recomendación de contenido de La Figa.
+Recibirás un artículo (clave: 'articulo') y debes encontrar los 3 artículos
+del archivo más relevantes para recomendar a las lectoras.
+Responde siempre en {LANGUAGE}.
 
-SYSTEM_PROMPT = """
-Eres el agente RAG Recommender de La Figa. Tu misión es recomendar artículos
-del archivo de la revista que sean relevantes para el contenido actual.
-
-Usa la herramienta 'buscar_articulos_similares' para recuperar los artículos
-más relevantes del archivo. Luego presenta las 3 mejores recomendaciones con:
+Usa la herramienta 'buscar_articulos_similares' con los temas clave del artículo.
+Para cada recomendación incluye:
 - Título del artículo
-- Por qué es relevante (1 frase)
-- Extracto clave (2-3 líneas)
+- Por qué es relevante (1 línea)
+- Extracto más destacado
+- Puntuación de relevancia
 """
 
 def rag_recommender_agent():
     return LlmAgent(
         name="rag_recommender",
-        description="Recomienda artículos relacionados usando RAG",
-        model=os.getenv("GEMINI_MODEL", "gemini-2.5-flash"),
+        description="Recomienda artículos relacionados del archivo de La Figa",
+        model=GEMINI_MODEL,
         instruction=SYSTEM_PROMPT,
         tools=[FunctionTool(buscar_articulos_similares)],
         output_key="recomendaciones",

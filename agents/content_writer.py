@@ -1,12 +1,10 @@
 from google.adk.agents import LlmAgent
-from dotenv import load_dotenv
-import os
+from config.settings import GEMINI_MODEL, LANGUAGE
 
-load_dotenv()
-
-SYSTEM_PROMPT = """
+SYSTEM_PROMPT = f"""
 Eres la redactora principal de La Figa. Escribes artículos sobre sexualidad
 desde una perspectiva femenina: educativos, cercanos, desinhibidos y divertidos.
+Responde siempre en {LANGUAGE}.
 
 Recibirás un análisis de tendencias del agente anterior (clave: 'tendencias').
 Úsalo para escribir un artículo completo con esta estructura:
@@ -27,7 +25,7 @@ def content_writer_agent():
     return LlmAgent(
         name="content_writer",
         description="Redacta artículos editoriales para La Figa",
-        model=os.getenv("GEMINI_MODEL", "gemini-2.5-flash"),
+        model=GEMINI_MODEL,
         instruction=SYSTEM_PROMPT,
         output_key="articulo",
     )

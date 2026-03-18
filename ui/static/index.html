@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>La Figa · Revista Digital</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    /* ── Variables & Reset ──────────────────────────────────── */
+    :root {
+      --bg: #0a0a0a;
+      --surface: #111;
+      --border: #1f1f1f;
+      --gold: #c9a96e;
+      --gold-hover: #e0c08a;
+      --text: #e8e2d9;
+      --muted: #666;
+      --muted2: #444;
+      --accent: #c9a96e;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+    a { color: inherit; text-decoration: none; }
+    button { cursor: pointer; border: none; background: none; font-family: inherit; }
+
+    /* ── Nav ────────────────────────────────────────────────── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(10,10,10,0.96);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 2rem;
+      height: 48px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 0;
+    }
+    .nav-link {
+      font-size: 0.68rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 0 20px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      border-bottom: 2px solid transparent;
+      transition: color 0.15s, border-color 0.15s;
+    }
+    .nav-link:hover { color: var(--text); }
+    .nav-link.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+    /* ── Hero ───────────────────────────────────────────────── */
+    .hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 3.5rem 2rem 3rem;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+    }
+    .hero-img {
+      width: 180px;
+      margin-bottom: 1.6rem;
+      opacity: 0.95;
+    }
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 3rem;
+      letter-spacing: 10px;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 0.6rem;
+    }
+    .hero-tagline {
+      font-size: 0.65rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--muted);
+      line-height: 2;
+    }
+    .hero-rule {
+      width: 50px;
+      height: 1px;
+      background: var(--gold);
+      opacity: 0.4;
+      margin: 1.4rem auto 0;
+    }
+
+    /* ── Sections ───────────────────────────────────────────── */
+    .section { display: none; }
+    .section.active { display: block; }
+
+    /* ── Portada ────────────────────────────────────────────── */
+    .portada-grid {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2.5rem 2rem;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-top: 2px solid var(--gold);
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+      display: flex;
+      flex-direction: column;
+      padding: 1.5rem;
+      gap: 0.6rem;
+    }
+    .card:hover {
+      border-color: var(--gold);
+      background: #141414;
+    }
+    .card-tag {
+      font-size: 0.58rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    .card-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      line-height: 1.4;
+      color: var(--text);
+    }
+    .card-excerpt {
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.65;
+      flex: 1;
+    }
+    .card-date {
+      font-size: 0.58rem;
+      letter-spacing: 1px;
+      color: var(--muted2);
+      text-transform: uppercase;
+      padding-top: 0.5rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .portada-empty {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 4rem 2rem;
+      text-align: center;
+    }
+    .portada-empty p {
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-bottom: 1.5rem;
+    }
+
+    @media (max-width: 860px) { .portada-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 540px) { .portada-grid { grid-template-columns: 1fr; padding: 1.5rem 1rem; } }
+
+    /* ── Artículo detalle ───────────────────────────────────── */
+    .article-view {
+      display: none;
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 3rem 2rem 5rem;
+    }
+    .article-view.active { display: block; }
+
+    .article-back {
+      font-size: 0.7rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 2rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.15s;
+    }
+    .article-back:hover { color: var(--gold); cursor: pointer; }
+
+    .article-tema {
+      font-size: 0.65rem;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.8rem;
+    }
+    .article-titulo {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem;
+      line-height: 1.2;
+      margin-bottom: 0.8rem;
+    }
+    .article-fecha {
+      font-size: 0.65rem;
+      letter-spacing: 1.5px;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin-bottom: 2rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .article-body {
+      font-size: 0.95rem;
+      line-height: 1.9;
+      color: #d4cdc4;
+    }
+    .article-body h1, .article-body h2, .article-body h3 {
+      font-family: 'Playfair Display', serif;
+      color: var(--text);
+      margin: 2rem 0 0.7rem;
+    }
+    .article-body h3 { font-size: 1.1rem; }
+    .article-body h2 { font-size: 1.3rem; }
+    .article-body p { margin-bottom: 1.1rem; }
+    .article-body strong { color: var(--text); }
+    .article-body em { color: var(--gold); font-style: italic; }
+
+    /* Social tab dentro del artículo */
+    .article-tabs {
+      display: flex;
+      border-bottom: 1px solid var(--border);
+      margin: 3rem 0 2rem;
+    }
+    .article-tab-btn {
+      font-size: 0.68rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 10px 18px;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      transition: color 0.15s;
+    }
+    .article-tab-btn:hover { color: var(--text); }
+    .article-tab-btn.active { color: var(--gold); border-bottom-color: var(--gold); }
+    .article-tab-panel { display: none; }
+    .article-tab-panel.active { display: block; }
+
+    .social-block {
+      margin-bottom: 2rem;
+      padding: 1.4rem 1.6rem;
+      border: 1px solid var(--border);
+      border-radius: 3px;
+    }
+    .social-label {
+      font-size: 0.62rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.8rem;
+    }
+    .social-text {
+      font-size: 0.88rem;
+      line-height: 1.75;
+      color: #c8c0b5;
+      white-space: pre-wrap;
+    }
+
+    /* ── Generar ────────────────────────────────────────────── */
+    .generar-wrap {
+      max-width: 660px;
+      margin: 0 auto;
+      padding: 3rem 2rem 5rem;
+    }
+    .generar-wrap h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.9rem;
+      margin-bottom: 0.5rem;
+    }
+    .generar-wrap p {
+      color: var(--muted);
+      font-size: 0.88rem;
+      margin-bottom: 2rem;
+    }
+
+    label {
+      font-size: 0.65rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--muted);
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+    input[type="text"] {
+      width: 100%;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      padding: 12px 16px;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    input[type="text"]:focus { border-color: var(--gold); }
+
+    .btn-primary {
+      margin-top: 1.2rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.72rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--bg);
+      background: var(--gold);
+      border-radius: 2px;
+      padding: 12px 26px;
+      transition: background 0.15s;
+    }
+    .btn-primary:hover { background: var(--gold-hover); }
+    .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    /* Progress */
+    .progress-wrap {
+      margin-top: 2rem;
+    }
+    .progress-step {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.8rem;
+      color: var(--muted);
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+      transition: color 0.2s;
+    }
+    .progress-step.done { color: var(--text); }
+    .progress-step.active { color: var(--gold); }
+    .step-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--muted2);
+      flex-shrink: 0;
+      transition: background 0.2s;
+    }
+    .progress-step.done .step-dot { background: var(--text); }
+    .progress-step.active .step-dot { background: var(--gold); animation: pulse 1s infinite; }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; } 50% { opacity: 0.4; }
+    }
+
+    .progress-done-msg {
+      margin-top: 1.5rem;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+    .progress-done-msg a {
+      color: var(--gold);
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    /* ── Chat ───────────────────────────────────────────────── */
+    .chat-wrap {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 2rem 2rem 0;
+      display: flex;
+      flex-direction: column;
+      height: calc(100vh - 56px);
+    }
+    .chat-header {
+      padding-bottom: 1.2rem;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 1.2rem;
+    }
+    .chat-header h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      margin-bottom: 0.2rem;
+    }
+    .chat-header p { font-size: 0.82rem; color: var(--muted); }
+
+    .chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+      padding: 0.5rem 0 1rem;
+    }
+    .msg {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+    .msg-who {
+      font-size: 0.6rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding-top: 4px;
+      min-width: 48px;
+      color: var(--muted);
+      flex-shrink: 0;
+    }
+    .msg.user .msg-who { color: var(--gold); }
+    .msg-text {
+      font-size: 0.9rem;
+      line-height: 1.75;
+      flex: 1;
+      color: #d4cdc4;
+    }
+    .msg.user .msg-text { color: var(--text); }
+
+    .chat-footer {
+      padding: 1rem 0 1.5rem;
+      border-top: 1px solid var(--border);
+    }
+    .chat-input-row {
+      display: flex;
+      gap: 8px;
+      align-items: flex-end;
+    }
+    textarea {
+      flex: 1;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.88rem;
+      padding: 10px 14px;
+      resize: none;
+      outline: none;
+      line-height: 1.5;
+      max-height: 120px;
+      transition: border-color 0.15s;
+    }
+    textarea:focus { border-color: var(--gold); }
+    .btn-send {
+      background: var(--gold);
+      color: var(--bg);
+      border-radius: 2px;
+      padding: 10px 18px;
+      font-size: 0.72rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      transition: background 0.15s;
+      white-space: nowrap;
+    }
+    .btn-send:hover { background: var(--gold-hover); }
+    .btn-clear-chat {
+      font-size: 0.62rem;
+      letter-spacing: 1px;
+      color: var(--muted2);
+      text-transform: uppercase;
+      margin-top: 0.6rem;
+      display: inline-block;
+      transition: color 0.15s;
+    }
+    .btn-clear-chat:hover { color: var(--muted); }
+
+    /* Typing dots */
+    .typing-dots span {
+      display: inline-block;
+      width: 5px; height: 5px;
+      background: var(--muted);
+      border-radius: 50%;
+      margin: 0 2px;
+      animation: blink 1.2s infinite;
+    }
+    .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+    .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes blink { 0%,80%,100% { opacity:0.2 } 40% { opacity:1 } }
+
+    /* ── Footer ─────────────────────────────────────────────── */
+    .site-footer {
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.62rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted2);
+      border-top: 1px solid var(--border);
+      margin-top: 3rem;
+    }
+
+    /* ── Util ───────────────────────────────────────────────── */
+    .btn-outline {
+      font-size: 0.7rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--gold);
+      border: 1px solid var(--gold);
+      border-radius: 2px;
+      padding: 9px 20px;
+      transition: background 0.15s, color 0.15s;
+      display: inline-block;
+    }
+    .btn-outline:hover { background: var(--gold); color: var(--bg); }
+
+    @media (max-width: 640px) {
+      nav { padding: 0 1rem; }
+      .portada-hero { padding: 2rem 1rem 1rem; flex-direction: column; align-items: flex-start; }
+      .portada-hero h1 { font-size: 1.8rem; }
+      .portada-grid { padding: 0; }
+      .card { padding: 1.3rem; }
+      .article-view, .generar-wrap, .chat-wrap { padding-left: 1rem; padding-right: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav>
+  <div class="nav-links">
+    <a class="nav-link active" data-section="portada" onclick="showSection('portada')">Revista</a>
+    <a class="nav-link" data-section="generar" onclick="showSection('generar')">Generar</a>
+    <a class="nav-link" data-section="chat" onclick="showSection('chat')">Consultorio</a>
+  </div>
+</nav>
+
+<!-- ── Portada ────────────────────────────────────────────── -->
+<div id="section-portada" class="section active">
+
+  <!-- Vista lista artículos -->
+  <div id="portada-list">
+
+    <!-- Hero -->
+    <div class="hero">
+      <img src="/assets/logo.png" class="hero-img" alt="La Figa" />
+      <div class="hero-title">La Figa</div>
+      <div class="hero-tagline">La expresión natural del cuerpo femenino · Vol. 1 · 2026</div>
+      <div class="hero-rule"></div>
+    </div>
+
+    <!-- Grid de artículos -->
+    <div id="portada-grid" class="portada-grid"></div>
+
+    <div id="portada-empty" class="portada-empty" style="display:none">
+      <p>Aún no hay artículos.</p>
+      <a class="btn-outline" onclick="showSection('generar')">Crear el primer artículo</a>
+    </div>
+
+  </div>
+
+  <!-- Vista artículo individual -->
+  <div id="portada-article" class="article-view">
+    <span class="article-back" onclick="closeArticle()">← Volver a la revista</span>
+    <div class="article-tema" id="art-tema"></div>
+    <h1 class="article-titulo" id="art-titulo"></h1>
+    <div class="article-fecha" id="art-fecha"></div>
+
+    <!-- Tabs artículo / redes -->
+    <div class="article-tabs">
+      <button class="article-tab-btn active" data-atab="texto" onclick="switchArticleTab('texto')">Artículo</button>
+      <button class="article-tab-btn" data-atab="social" onclick="switchArticleTab('social')">Redes sociales</button>
+      <button class="article-tab-btn" data-atab="relacionados" onclick="switchArticleTab('relacionados')">Relacionados</button>
+    </div>
+
+    <div id="atab-texto" class="article-tab-panel active">
+      <div class="article-body" id="art-body"></div>
+    </div>
+
+    <div id="atab-social" class="article-tab-panel">
+      <div id="art-social"></div>
+    </div>
+
+    <div id="atab-relacionados" class="article-tab-panel">
+      <div class="article-body" id="art-relacionados"></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ── Generar ────────────────────────────────────────────── -->
+<div id="section-generar" class="section">
+  <div class="generar-wrap">
+    <h2>Nuevo artículo</h2>
+    <p>Escribe un tema y el sistema investigará tendencias, redactará el artículo y preparará los posts para redes sociales.</p>
+
+    <label for="tema-input">Tema</label>
+    <input type="text" id="tema-input"
+           placeholder="placer femenino, menopausia y deseo, masturbación…" />
+
+    <button class="btn-primary" id="btn-generar" onclick="generarArticulo()">
+      Generar artículo
+    </button>
+
+    <div class="progress-wrap" id="progress-wrap" style="display:none">
+      <div class="progress-step" id="step-0">
+        <div class="step-dot"></div>
+        <span>Investigando tendencias</span>
+      </div>
+      <div class="progress-step" id="step-1">
+        <div class="step-dot"></div>
+        <span>Redactando el artículo</span>
+      </div>
+      <div class="progress-step" id="step-2">
+        <div class="step-dot"></div>
+        <span>Buscando contenido relacionado</span>
+      </div>
+      <div class="progress-step" id="step-3">
+        <div class="step-dot"></div>
+        <span>Preparando posts para redes</span>
+      </div>
+      <div class="progress-done-msg" id="progress-done" style="display:none"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Chat ──────────────────────────────────────────────── -->
+<div id="section-chat" class="section">
+  <div class="chat-wrap">
+    <div class="chat-header">
+      <h2>Consultorio</h2>
+      <p>Un espacio seguro para tus preguntas sobre sexualidad, placer y cuerpo.</p>
+    </div>
+    <div class="chat-messages" id="chat-messages"></div>
+    <div class="chat-footer">
+      <div class="chat-input-row">
+        <textarea id="chat-input" rows="2"
+                  placeholder="Escribe tu pregunta…"></textarea>
+        <button class="btn-send" onclick="sendMessage()">Enviar</button>
+      </div>
+      <button class="btn-clear-chat" onclick="clearChat()">Limpiar conversación</button>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer class="site-footer" id="site-footer" style="display:none">
+  La Figa · Revista Digital &amp; Cultural · 2026
+</footer>
+
+<script>
+// ── Navegación ──────────────────────────────────────────────
+function showSection(name) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+  document.getElementById('section-' + name).classList.add('active');
+  document.querySelector(`[data-section="${name}"]`)?.classList.add('active');
+
+  const footer = document.getElementById('site-footer');
+  footer.style.display = (name === 'chat') ? 'none' : 'block';
+
+  if (name === 'portada') {
+    closeArticle(false);
+    loadArticles();
+  }
+}
+
+// ── Artículos ───────────────────────────────────────────────
+async function loadArticles() {
+  const res = await fetch('/api/articles');
+  const articles = await res.json();
+  const grid  = document.getElementById('portada-grid');
+  const empty = document.getElementById('portada-empty');
+
+  if (!articles.length) {
+    grid.style.display = 'none';
+    empty.style.display = 'block';
+    return;
+  }
+
+  grid.style.display = 'grid';
+  empty.style.display = 'none';
+  grid.innerHTML = articles.map(a => `
+    <div class="card" onclick="openArticle('${a.id}')">
+      <div class="card-tag">${escHtml(a.tema)}</div>
+      <div class="card-title">${escHtml(a.titulo)}</div>
+      <div class="card-excerpt">${escHtml(a.extracto)}</div>
+      <div class="card-date">${escHtml(a.fecha)}</div>
+    </div>`).join('');
+}
+
+async function openArticle(id) {
+  const res = await fetch(`/api/articles/${id}`);
+  const a = await res.json();
+  if (a.error) return;
+
+  document.getElementById('art-tema').textContent = a.tema.toUpperCase();
+  document.getElementById('art-titulo').textContent = a.titulo;
+  document.getElementById('art-fecha').textContent = a.fecha;
+  document.getElementById('art-body').innerHTML = mdToHtml(a.articulo || '');
+  document.getElementById('art-social').innerHTML = renderSocialPosts(a.posts || '');
+  document.getElementById('art-relacionados').innerHTML = mdToHtml(a.recomendaciones || '');
+
+  switchArticleTab('texto');
+  document.getElementById('portada-list').style.display = 'none';
+  document.getElementById('portada-article').classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function closeArticle(scroll = true) {
+  document.getElementById('portada-article').classList.remove('active');
+  document.getElementById('portada-list').style.display = 'block';
+  if (scroll) window.scrollTo(0, 0);
+}
+
+function switchArticleTab(name) {
+  document.querySelectorAll('.article-tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.article-tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelector(`[data-atab="${name}"]`).classList.add('active');
+  document.getElementById('atab-' + name).classList.add('active');
+}
+
+function renderSocialPosts(text) {
+  if (!text) return '<p style="color:var(--muted);font-size:.85rem">No hay posts generados.</p>';
+  const platforms = [
+    { key: 'INSTAGRAM', label: 'Instagram' },
+    { key: 'TWITTER', label: 'Twitter / X' },
+    { key: 'TIKTOK', label: 'TikTok' },
+  ];
+  let blocks = '';
+  for (const p of platforms) {
+    const re = new RegExp(`###?\\s+\\*?\\*?${p.key}[^\\n]*\\n([\\s\\S]*?)(?=###|$)`, 'i');
+    const m = text.match(re);
+    if (m) {
+      blocks += `<div class="social-block">
+        <div class="social-label">${p.label}</div>
+        <div class="social-text">${escHtml(m[1].trim())}</div>
+      </div>`;
+    }
+  }
+  return blocks || `<div class="social-block"><div class="social-text">${escHtml(text)}</div></div>`;
+}
+
+// ── Generar pipeline ───────────────────────────────────────
+const STEP_MAP = {
+  trend_scout:      0,
+  content_writer:   1,
+  rag_recommender:  2,
+  social_publisher: 3,
+};
+
+async function generarArticulo() {
+  const tema = document.getElementById('tema-input').value.trim();
+  if (!tema) return;
+
+  const btn = document.getElementById('btn-generar');
+  btn.disabled = true;
+
+  const wrap = document.getElementById('progress-wrap');
+  const doneMsg = document.getElementById('progress-done');
+  wrap.style.display = 'block';
+  doneMsg.style.display = 'none';
+
+  // Reset steps
+  for (let i = 0; i < 4; i++) {
+    const el = document.getElementById('step-' + i);
+    el.classList.remove('active', 'done');
+  }
+
+  const res = await fetch('/api/pipeline', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ tema }),
+  });
+
+  const reader = res.body.getReader();
+  const dec = new TextDecoder();
+  let buf = '';
+  let currentStep = -1;
+
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    buf += dec.decode(value, { stream: true });
+    const lines = buf.split('\n');
+    buf = lines.pop();
+
+    for (const line of lines) {
+      if (!line.startsWith('data: ')) continue;
+      const raw = line.slice(6).trim();
+      try {
+        const payload = JSON.parse(raw);
+
+        if (payload.done) {
+          // Marcar todos como done
+          for (let i = 0; i <= currentStep; i++) {
+            const el = document.getElementById('step-' + i);
+            el.classList.remove('active');
+            el.classList.add('done');
+          }
+          if (payload.article_id) {
+            doneMsg.style.display = 'block';
+            doneMsg.innerHTML = `Artículo generado. <a onclick="goToArticle('${payload.article_id}')">Leer ahora →</a>`;
+          }
+          btn.disabled = false;
+          break;
+        }
+
+        const stepIdx = STEP_MAP[payload.agente];
+        if (stepIdx !== undefined) {
+          // Marcar anteriores como done
+          if (currentStep >= 0 && currentStep < stepIdx) {
+            for (let i = 0; i <= currentStep; i++) {
+              document.getElementById('step-' + i).classList.remove('active');
+              document.getElementById('step-' + i).classList.add('done');
+            }
+          }
+          currentStep = stepIdx;
+          document.getElementById('step-' + stepIdx).classList.add('active');
+        }
+      } catch {}
+    }
+  }
+
+  btn.disabled = false;
+}
+
+function goToArticle(id) {
+  showSection('portada');
+  openArticle(id);
+}
+
+// ── Chat ───────────────────────────────────────────────────
+let sessionId = null;
+
+async function initChat() {
+  const res = await fetch('/api/chat/session', { method: 'POST' });
+  const d = await res.json();
+  sessionId = d.session_id;
+}
+initChat();
+
+function appendMsg(role, html) {
+  const win = document.getElementById('chat-messages');
+  const div = document.createElement('div');
+  div.className = 'msg ' + (role === 'user' ? 'user' : 'bot');
+  div.innerHTML = `<div class="msg-who">${role === 'user' ? 'Tú' : 'La Figa'}</div>
+                   <div class="msg-text">${html}</div>`;
+  win.appendChild(div);
+  win.scrollTop = win.scrollHeight;
+  return div;
+}
+
+function appendTyping() {
+  return appendMsg('bot', '<span class="typing-dots"><span></span><span></span><span></span></span>');
+}
+
+async function sendMessage() {
+  const inp = document.getElementById('chat-input');
+  const pregunta = inp.value.trim();
+  if (!pregunta || !sessionId) return;
+  inp.value = '';
+
+  appendMsg('user', escHtml(pregunta));
+  const thinking = appendTyping();
+
+  const res = await fetch('/api/chat', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ session_id: sessionId, pregunta }),
+  });
+  const d = await res.json();
+  thinking.remove();
+  appendMsg('bot', mdToHtml(d.respuesta || d.error || '…'));
+}
+
+async function clearChat() {
+  if (sessionId) await fetch(`/api/chat/session/${sessionId}`, { method: 'DELETE' });
+  document.getElementById('chat-messages').innerHTML = '';
+  await initChat();
+}
+
+document.getElementById('chat-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+});
+
+// ── Markdown básico ────────────────────────────────────────
+function mdToHtml(text) {
+  return text
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/^### (.+)$/gm, '<h3>$1</h3>')
+    .replace(/^## (.+)$/gm, '<h2>$1</h2>')
+    .replace(/^# (.+)$/gm, '<h1>$1</h1>')
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.+?)\*/g, '<em>$1</em>')
+    .replace(/\n{2,}/g, '</p><p>')
+    .replace(/^(?!<[h|p])(.+)$/gm, '$1')
+    .replace(/\n/g, '<br>')
+    .replace(/^(.+)$/, '<p>$1</p>');
+}
+
+function escHtml(s) {
+  return String(s)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+// ── Init ───────────────────────────────────────────────────
+loadArticles();
+</script>
+</body>
+</html>

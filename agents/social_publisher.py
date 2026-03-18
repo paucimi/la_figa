@@ -1,13 +1,11 @@
 from google.adk.agents import LlmAgent
-from dotenv import load_dotenv
-import os
+from config.settings import GEMINI_MODEL, LANGUAGE
 
-load_dotenv()
-
-SYSTEM_PROMPT = """
+SYSTEM_PROMPT = f"""
 Eres la community manager de La Figa, una revista digital sobre sexualidad
 desde la perspectiva femenina. Tu misión es adaptar el contenido editorial
 a cada red social con su propio lenguaje y formato.
+Responde siempre en {LANGUAGE}.
 
 Recibirás el artículo generado por el Content Writer (clave: 'articulo').
 Con ese contenido crearás 3 posts optimizados:
@@ -42,7 +40,7 @@ def social_publisher_agent():
     return LlmAgent(
         name="social_publisher",
         description="Crea posts optimizados para Instagram, Twitter/X y TikTok",
-        model=os.getenv("GEMINI_MODEL", "gemini-2.5-flash"),
+        model=GEMINI_MODEL,
         instruction=SYSTEM_PROMPT,
         output_key="posts_sociales",
     )
