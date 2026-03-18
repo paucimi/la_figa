@@ -2,9 +2,12 @@ FROM python:3.12-slim
 
 WORKDIR /app
 
-# Dependencias del sistema para ChromaDB
+# Dependencias del sistema para ChromaDB y compilación
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
+    libsqlite3-dev \
+    sqlite3 \
+    gcc \
     && rm -rf /var/lib/apt/lists/*
 
 # Instalar dependencias Python
