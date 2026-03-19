@@ -7,6 +7,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from google.adk.runners import Runner
 from google.adk.sessions import InMemorySessionService
+from google.genai import types as genai_types
 from orchestrator.pipeline import build_editorial_pipeline, build_chatbot
 from rag.vector_store import cargar_articulos
 import json
@@ -223,7 +224,10 @@ async def run_agent_async(agent, user_id, mensaje):
     async for event in runner.run_async(
         user_id=user_id,
         session_id=session.id,
-        new_message={"role": "user", "parts": [{"text": mensaje}]}
+        new_message=genai_types.Content(
+            role="user",
+            parts=[genai_types.Part(text=mensaje)]
+        )
     ):
         if event.is_final_response():
             resultado = event.content.parts[0].text
