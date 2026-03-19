@@ -48,7 +48,7 @@ Tema editorial
 | Tecnología | Rol | Estado |
 |---|---|---|
 | **Google ADK** | Director del sistema — orquesta los agentes con `SequentialAgent` y `ParallelAgent` | ✅ Implementado |
-| **MCP** | Contexto compartido entre agentes — conecta fuentes externas y gestiona el historial | 🔄 En desarrollo |
+| **MCP** | Context manager con persistencia en disco — memoria conversacional entre sesiones | ✅ Implementado |
 
 ### Modelo e IA
 | Tecnología | Rol | Estado |
@@ -65,7 +65,8 @@ Tema editorial
 ### Interfaz
 | Tecnología | Rol | Estado |
 |---|---|---|
-| **Streamlit** | Interfaz visual para interactuar con el pipeline y el chatbot | 🔄 En desarrollo |
+| **FastAPI + HTML/JS** | Interfaz web principal — portada, generador y consultorio con SSE | ✅ Implementado |
+| **Streamlit** | Interfaz alternativa para prototipado rápido | ✅ Implementado |
 
 ---
 
@@ -96,12 +97,13 @@ Adapta el contenido editorial a formatos optimizados para Instagram, Twitter/X y
 - [x] Agente RAG Recommender
 - [x] Sistema de embeddings con ChromaDB
 - [x] Orquestador ADK (SequentialAgent + ParallelAgent)
-- [ ] Agente Reader Chatbot
-- [ ] Agente Social Publisher
-- [ ] Integración MCP
-- [ ] Datos de ejemplo para RAG
-- [ ] Interfaz Streamlit
-- [ ] Herramientas compartidas (tools/)
+- [x] Agente Reader Chatbot
+- [x] Agente Social Publisher
+- [x] Integración MCP (context_manager con persistencia en disco)
+- [x] Datos de ejemplo para RAG (10 artículos)
+- [x] Interfaz Streamlit
+- [x] Herramientas compartidas (tools/)
+- [x] Interfaz web FastAPI (portada, generador, consultorio)
 
 ---
 

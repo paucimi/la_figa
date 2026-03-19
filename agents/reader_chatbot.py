@@ -1,6 +1,11 @@
 from google.adk.agents import LlmAgent
 from google.adk.tools import FunctionTool
 from rag.retriever import buscar_articulos_similares
+from context_manager.context_manager import (
+    get_conversation_context,
+    save_conversation_context,
+    clear_conversation_context,
+)
 from config.settings import GEMINI_MODEL, LANGUAGE
 
 SYSTEM_PROMPT = f"""
@@ -22,6 +27,12 @@ Herramientas disponibles:
 - 'buscar_articulos_similares': busca en el archivo de La Figa artículos
   relacionados con la pregunta. Úsala cuando el tema lo merezca para
   enriquecer tu respuesta con contenido de la revista.
+- 'get_conversation_context': recupera el historial de conversación de una sesión
+  para dar continuidad entre visitas. Llámala al inicio si necesitas contexto previo.
+- 'save_conversation_context': guarda mensajes importantes de la conversación
+  para que persistan entre sesiones.
+- 'clear_conversation_context': limpia el historial de una sesión cuando la
+  usuaria/usuario quiere empezar de cero.
 
 Estructura de cada respuesta:
 1. Respuesta directa a la pregunta (2-3 párrafos)
@@ -39,5 +50,8 @@ def reader_chatbot_agent():
         instruction=SYSTEM_PROMPT,
         tools=[
             FunctionTool(buscar_articulos_similares),
+            FunctionTool(get_conversation_context),
+            FunctionTool(save_conversation_context),
+            FunctionTool(clear_conversation_context),
         ],
     )
