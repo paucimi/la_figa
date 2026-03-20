@@ -142,30 +142,34 @@ async def run_pipeline(request: Request):
             "social_publisher": "Preparando posts para redes...",
         }
 
-        async for event in runner.run_async(
-            user_id="editor",
-            session_id=session.id,
-            new_message=_to_content(tema)
-        ):
-            if not (event.is_final_response() and event.content and event.content.parts):
-                continue
+        try:
+            async for event in runner.run_async(
+                user_id="editor",
+                session_id=session.id,
+                new_message=_to_content(tema)
+            ):
+                if not (event.is_final_response() and event.content and event.content.parts):
+                    continue
 
-            agente = event.author if hasattr(event, "author") else ""
-            texto = event.content.parts[0].text or ""
-            if not texto:
-                continue
+                agente = event.author if hasattr(event, "author") else ""
+                texto = event.content.parts[0].text or ""
+                if not texto:
+                    continue
 
-            # Acumular para guardar al final
-            if agente == "content_writer":
-                accumulated["articulo"] = texto
-            elif agente == "social_publisher":
-                accumulated["posts"] = texto
-            elif agente == "rag_recommender":
-                accumulated["recomendaciones"] = texto
+                # Acumular para guardar al final
+                if agente == "content_writer":
+                    accumulated["articulo"] = texto
+                elif agente == "social_publisher":
+                    accumulated["posts"] = texto
+                elif agente == "rag_recommender":
+                    accumulated["recomendaciones"] = texto
 
-            label = STEP_LABELS.get(agente, "")
-            data = json.dumps({"step": label, "agente": agente, "texto": texto}, ensure_ascii=False)
-            yield f"data: {data}\n\n"
+                label = STEP_LABELS.get(agente, "")
+                data = json.dumps({"step": label, "agente": agente, "texto": texto}, ensure_ascii=False)
+                yield f"data: {data}\n\n"
+        except Exception as e:
+            yield f"data: {json.dumps({'error': str(e), 'done': True, 'article_id': None}, ensure_ascii=False)}\n\n"
+            return
 
         # Guardar artículo
         if accumulated["articulo"]:
@@ -222,13 +226,16 @@ async def chat(request: Request):
 
     ctx = _chatbot_sessions[session_id]
     respuesta = ""
-    async for event in ctx["runner"].run_async(
-        user_id="lectora",
-        session_id=ctx["adk_session"].id,
-        new_message=_to_content(pregunta)
-    ):
-        if event.is_final_response() and event.content and event.content.parts:
-            respuesta = event.content.parts[0].text or ""
+    try:
+        async for event in ctx["runner"].run_async(
+            user_id="lectora",
+            session_id=ctx["adk_session"].id,
+            new_message=_to_content(pregunta)
+        ):
+            if event.is_final_response() and event.content and event.content.parts:
+                respuesta = event.content.parts[0].text or ""
+    except Exception as e:
+        return {"error": str(e)}
 
     return {"respuesta": respuesta}
 

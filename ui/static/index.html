@@ -790,14 +790,18 @@ async function generarArticulo() {
       try {
         const payload = JSON.parse(raw);
 
-        if (payload.done) {
+        if (payload.done || payload.error) {
           // Marcar todos como done
           for (let i = 0; i <= currentStep; i++) {
             const el = document.getElementById('step-' + i);
             el.classList.remove('active');
             el.classList.add('done');
           }
-          if (payload.article_id) {
+          if (payload.error) {
+            doneMsg.style.display = 'block';
+            doneMsg.style.color = '#e05';
+            doneMsg.innerHTML = `❌ Error: ${payload.error}`;
+          } else if (payload.article_id) {
             doneMsg.style.display = 'block';
             doneMsg.innerHTML = `Artículo generado. <a onclick="goToArticle('${payload.article_id}')">Leer ahora →</a>`;
           }

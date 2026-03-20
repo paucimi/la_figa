@@ -7,6 +7,8 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+from config.settings import CHROMA_DIR
+
 class GeminiEmbeddingFunction(EmbeddingFunction):
     """Embedding function usando google-genai (nueva API)."""
 
@@ -25,7 +27,7 @@ class GeminiEmbeddingFunction(EmbeddingFunction):
 
 def get_vector_store():
     """Inicializa o carga la base de datos vectorial ChromaDB."""
-    client = chromadb.PersistentClient(path="data/chroma_db")
+    client = chromadb.PersistentClient(path=CHROMA_DIR)
 
     collection = client.get_or_create_collection(
         name="la_figa_articles",

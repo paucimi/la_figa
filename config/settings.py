@@ -6,7 +6,8 @@ load_dotenv()
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY")
 
 if not GEMINI_API_KEY:
-    raise ValueError("❌ No se encontró GEMINI_API_KEY ni GOOGLE_API_KEY en el archivo .env")
+    print("⚠️  ADVERTENCIA: No se encontró GEMINI_API_KEY ni GOOGLE_API_KEY. "
+          "La app arrancará pero las llamadas a la IA fallarán.")
 
 NEWSPAPER_NAME = os.getenv("NEWSPAPER_NAME", "Doxas")
 GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
