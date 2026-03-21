@@ -1,0 +1,93 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Bebas+Neue&family=Inter:wght@300;400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 4%;
+    --foreground: 43 50% 72%;
+    --card: 0 0% 7%;
+    --card-foreground: 43 50% 72%;
+    --primary: 43 72% 55%;
+    --primary-foreground: 0 0% 4%;
+    --secondary: 43 30% 15%;
+    --secondary-foreground: 43 50% 72%;
+    --muted: 0 0% 10%;
+    --muted-foreground: 43 20% 45%;
+    --border: 43 40% 22%;
+    --input: 43 40% 22%;
+    --ring: 43 72% 55%;
+    --radius: 0.25rem;
+    --gold: 43 72% 55%;
+    --gold-light: 43 80% 70%;
+    --gold-dark: 43 60% 35%;
+    --gold-muted: 43 30% 20%;
+    --deep-black: 0 0% 4%;
+    --surface: 0 0% 7%;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Inter', sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 0.08em;
+  }
+}
+
+@layer components {
+  .font-editorial { font-family: 'Cormorant Garamond', serif; }
+  .font-display { font-family: 'Bebas Neue', sans-serif; }
+  .font-body { font-family: 'Inter', sans-serif; }
+  .text-gold { color: hsl(var(--gold)); }
+  .text-gold-light { color: hsl(var(--gold-light)); }
+  .border-gold { border-color: hsl(var(--gold)); }
+  .border-gold-muted { border-color: hsl(var(--gold-muted)); }
+  .bg-surface { background-color: hsl(var(--surface)); }
+
+  .gold-glow {
+    box-shadow: 0 0 30px hsla(43, 72%, 55%, 0.15), 0 0 60px hsla(43, 72%, 55%, 0.05);
+  }
+
+  .gold-glow-text {
+    text-shadow: 0 0 40px hsla(43, 72%, 55%, 0.3);
+  }
+
+  .gold-gradient-text {
+    background: linear-gradient(135deg, hsl(43, 80%, 70%), hsl(43, 72%, 55%), hsl(43, 60%, 40%));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .module-panel {
+    background: hsla(43, 30%, 15%, 0.3);
+    border: 1px solid hsla(43, 40%, 22%, 0.6);
+    backdrop-filter: blur(8px);
+  }
+}
+
+@layer utilities {
+  @keyframes gold-pulse {
+    0%, 100% { opacity: 0.6; filter: brightness(1); }
+    50% { opacity: 1; filter: brightness(1.3); }
+  }
+
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(16px); filter: blur(4px); }
+    to { opacity: 1; transform: translateY(0); filter: blur(0); }
+  }
+
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .animate-gold-pulse { animation: gold-pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+  .animate-fade-up { animation: fade-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) both; }
+  .animate-fade-in { animation: fade-in 0.6s ease-out both; }
+}
