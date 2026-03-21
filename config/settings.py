@@ -8,7 +8,7 @@ GEMINI_API_KEY = os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY")
 if not GEMINI_API_KEY:
     raise ValueError("❌ No se encontró GEMINI_API_KEY ni GOOGLE_API_KEY en el archivo .env")
 
-NEWSPAPER_NAME = os.getenv("NEWSPAPER_NAME", "Doxas")
+NEWSPAPER_NAME = os.getenv("NEWSPAPER_NAME", "la_figa")
 GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
 LANGUAGE = os.getenv("LANGUAGE", "español")
 
