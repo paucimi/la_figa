@@ -32,3 +32,9 @@ variable "language" {
   type        = string
   default     = "español"
 }
+
+variable "chroma_gcs_bucket" {
+  description = "Nombre del bucket GCS para ChromaDB persistente. Si se deja vacío se genera como '{project_id}-la-figa-chroma'"
+  type        = string
+  default     = ""
+}

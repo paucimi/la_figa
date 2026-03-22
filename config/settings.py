@@ -5,6 +5,9 @@ from dotenv import load_dotenv
 load_dotenv()
 
 GOOGLE_CLOUD_PROJECT = os.getenv("GOOGLE_CLOUD_PROJECT")
+# Regiones recomendadas para Gemini 2.5 Flash (razonamiento avanzado disponible primero aquí):
+#   us-central1   → menor latencia desde EEUU
+#   europe-west1  → menor latencia desde Europa (recomendado si tu audiencia es europea)
 GOOGLE_CLOUD_LOCATION = os.getenv("GOOGLE_CLOUD_LOCATION", "us-central1")
 
 if not GOOGLE_CLOUD_PROJECT:

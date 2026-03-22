@@ -26,3 +26,8 @@ output "service_account_email" {
   description = "Email del Service Account usado por Cloud Run"
   value       = google_service_account.la_figa_sa.email
 }
+
+output "chroma_gcs_bucket" {
+  description = "Bucket GCS donde ChromaDB persiste los artículos entre reinicios"
+  value       = google_storage_bucket.chroma_db.name
+}

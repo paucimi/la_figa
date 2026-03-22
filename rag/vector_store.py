@@ -1,7 +1,20 @@
+import os
+import warnings
 import chromadb
 from chromadb import EmbeddingFunction, Embeddings
 from vertexai.language_models import TextEmbeddingModel, TextEmbeddingInput
 from config.settings import CHROMA_DIR
+
+# AVISO: si CHROMA_DIR apunta a /tmp (Cloud Run sin volume mount GCS),
+# la base vectorial se pierde al reiniciar el contenedor.
+# En producción, monta un bucket GCS como volumen en Cloud Run
+# (ver terraform/main.tf) o migra a Vertex AI Vector Search.
+if CHROMA_DIR.startswith("/tmp"):
+    warnings.warn(
+        "ChromaDB en /tmp es efímero: los artículos se borrarán si el contenedor "
+        "se reinicia. Configura GCS_CHROMA_BUCKET en Terraform para persistencia.",
+        stacklevel=2,
+    )
 
 
 class VertexAIEmbeddingFunction(EmbeddingFunction):
