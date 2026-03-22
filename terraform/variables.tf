@@ -6,7 +6,7 @@ variable "project_id" {
 variable "region" {
   description = "Región de Google Cloud donde se desplegará todo"
   type        = string
-  default     = "us-central1"
+  default     = "europe-west1"
 }
 
 variable "image_tag" {
