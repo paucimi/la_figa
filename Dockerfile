@@ -22,6 +22,10 @@ ENV PORT=8080
 ENV CHROMA_DIR=/tmp/chroma_db
 ENV SESSIONS_DIR=/tmp/sessions
 
+# Vertex AI: en Cloud Run se usa ADC automático via Service Account
+# No se necesita API key ni archivo de credenciales
+ENV GOOGLE_GENAI_USE_VERTEXAI=1
+
 EXPOSE 8080
 
 CMD uvicorn ui.app:app --host 0.0.0.0 --port $PORT

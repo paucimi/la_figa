@@ -1,35 +1,29 @@
 import chromadb
 from chromadb import EmbeddingFunction, Embeddings
-from google import genai
-from google.genai import types
-import os
-from dotenv import load_dotenv
+from vertexai.language_models import TextEmbeddingModel, TextEmbeddingInput
+from config.settings import CHROMA_DIR
 
-load_dotenv()
 
-class GeminiEmbeddingFunction(EmbeddingFunction):
-    """Embedding function usando google-genai (nueva API)."""
+class VertexAIEmbeddingFunction(EmbeddingFunction):
+    """Embedding function usando Vertex AI Text Embeddings (sin API key)."""
 
     def __init__(self):
-        self.client = genai.Client(
-            api_key=os.getenv("GEMINI_API_KEY"))
+        # text-multilingual-embedding-002 soporta español y 100+ idiomas
+        self.model = TextEmbeddingModel.from_pretrained("text-multilingual-embedding-002")
 
     def __call__(self, input: list[str]) -> Embeddings:
-        result = self.client.models.embed_content(
-            model="models/gemini-embedding-001",
-            contents=input,
-            config=types.EmbedContentConfig(task_type="RETRIEVAL_DOCUMENT")
-        )
-        return [e.values for e in result.embeddings]
+        inputs = [TextEmbeddingInput(text, "RETRIEVAL_DOCUMENT") for text in input]
+        embeddings = self.model.get_embeddings(inputs)
+        return [e.values for e in embeddings]
 
 
 def get_vector_store():
     """Inicializa o carga la base de datos vectorial ChromaDB."""
-    client = chromadb.PersistentClient(path="data/chroma_db")
+    client = chromadb.PersistentClient(path=CHROMA_DIR)
 
     collection = client.get_or_create_collection(
         name="la_figa_articles",
-        embedding_function=GeminiEmbeddingFunction(),
+        embedding_function=VertexAIEmbeddingFunction(),
         metadata={"hnsw:space": "cosine"}
     )
     return collection
