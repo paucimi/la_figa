@@ -11,9 +11,12 @@ const FooterSection = () => {
         <h2 className="font-display text-2xl md:text-3xl tracking-[0.12em] gold-gradient-text mb-6" style={{ lineHeight: '1.1' }}>
           Explora el Futuro de la Sexualidad Inclusiva
         </h2>
-        <button className="px-8 py-3 border border-primary/60 text-primary text-xs tracking-[0.3em] uppercase font-body font-light hover:bg-primary/10 transition-colors duration-300 active:scale-[0.97] rounded-sm">
+        <a
+          href="/editor"
+          className="px-8 py-3 border border-primary/60 text-primary text-xs tracking-[0.3em] uppercase font-body font-light hover:bg-primary/10 transition-colors duration-300 active:scale-[0.97] rounded-sm"
+        >
           Entrar a la Plataforma
-        </button>
+        </a>
       </div>
 
       <div className="max-w-2xl mx-auto text-center mb-12">

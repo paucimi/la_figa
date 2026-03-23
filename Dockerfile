@@ -1,3 +1,13 @@
+# ── Stage 1: Build React frontend ────────────────────────────────────────────
+FROM node:20-slim AS frontend-builder
+
+WORKDIR /frontend
+COPY frontend/package.json ./
+RUN npm install
+COPY frontend/ .
+RUN npm run build
+
+# ── Stage 2: Python backend ───────────────────────────────────────────────────
 FROM python:3.12-slim
 
 WORKDIR /app
@@ -16,6 +26,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # Copiar el proyecto
 COPY . .
+
+# Copiar el build de React al directorio que FastAPI servirá
+COPY --from=frontend-builder /frontend/dist ./ui/react_dist
 
 # Cloud Run inyecta PORT; uvicorn lo usa
 ENV PORT=8080

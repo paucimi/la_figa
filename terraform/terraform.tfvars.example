@@ -1,0 +1,17 @@
+# Copia este archivo como terraform.tfvars y rellena tus valores:
+#   cp terraform.tfvars.example terraform.tfvars
+
+# ── Obligatorio ──────────────────────────────────────────────────────────────
+project_id = "TU_PROJECT_ID"   # ej: "mi-proyecto-123456"
+
+# ── Opcionales (los defaults funcionan para europe-west1) ────────────────────
+# region     = "europe-west1"
+# image_tag  = "latest"
+
+# ── Opcionales editoriales ───────────────────────────────────────────────────
+# newspaper_name = "la_figa"
+# gemini_model   = "gemini-2.5-flash"
+# language       = "español"
+
+# ── Bucket GCS para ChromaDB (se genera automáticamente si se deja vacío) ────
+# chroma_gcs_bucket = ""

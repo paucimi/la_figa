@@ -9,4 +9,18 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
+  build: {
+    // Evita conflicto con el mount /assets del backend (logo, etc.)
+    assetsDir: 'react-assets',
+    outDir: 'dist',
+  },
+  server: {
+    // En desarrollo: proxy las llamadas /api al backend FastAPI
+    proxy: {
+      '/api': {
+        target: 'http://localhost:8080',
+        changeOrigin: true,
+      },
+    },
+  },
 });

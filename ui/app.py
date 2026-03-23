@@ -83,14 +83,31 @@ def startup():
 # ── Static files ───────────────────────────────────────────────────────────
 
 static_dir = os.path.join(os.path.dirname(__file__), "static")
+react_dist_dir = os.path.join(os.path.dirname(__file__), "react_dist")
 assets_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), "assets")
 
 app.mount("/static", StaticFiles(directory=static_dir), name="static")
 app.mount("/assets", StaticFiles(directory=assets_dir), name="assets")
 
+# Sirve los assets del build de React (JS, CSS) — en dist/react-assets/
+_react_assets = os.path.join(react_dist_dir, "react-assets")
+if os.path.isdir(_react_assets):
+    app.mount("/react-assets", StaticFiles(directory=_react_assets), name="react-assets")
+
 
 @app.get("/", response_class=HTMLResponse)
 async def index():
+    """Landing page React (si está buildeada) o fallback al editor."""
+    react_index = os.path.join(react_dist_dir, "index.html")
+    if os.path.exists(react_index):
+        with open(react_index, "r", encoding="utf-8") as f:
+            return f.read()
+    from fastapi.responses import RedirectResponse
+    return RedirectResponse(url="/editor")
+
+
+@app.get("/editor", response_class=HTMLResponse)
+async def editor():
     with open(os.path.join(static_dir, "index.html"), "r", encoding="utf-8") as f:
         return f.read()
 

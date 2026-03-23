@@ -1,32 +1,39 @@
-import articleBody from '@/assets/article-bodyart.jpg';
-import articleIntimacy from '@/assets/article-intimacy.jpg';
-import articleEmpowerment from '@/assets/article-empowerment.jpg';
+import { useEffect, useState } from 'react';
 
-const articles = [
+const FALLBACK_ARTICLES = [
   {
-    image: articleBody,
     category: 'Cuerpo & Diversidad',
-    title: 'Reescribiendo el Lienzo: Cuerpos Diversos como Arte Vivo',
-    excerpt: 'Una exploración de cómo la diversidad corporal transforma los estándares de belleza a través de la expresión artística y el diálogo cultural.',
-    delay: '0s',
+    titulo: 'Reescribiendo el Lienzo: Cuerpos Diversos como Arte Vivo',
+    extracto: 'Una exploración de cómo la diversidad corporal transforma los estándares de belleza a través de la expresión artística y el diálogo cultural.',
   },
   {
-    image: articleIntimacy,
     category: 'Intimidad & Conexión',
-    title: 'El Lenguaje del Tacto en la Era Digital',
-    excerpt: 'Investigamos los matices de la conexión física y cómo la tecnología tiende puentes y a la vez transforma los vínculos íntimos.',
-    delay: '0.12s',
+    titulo: 'El Lenguaje del Tacto en la Era Digital',
+    extracto: 'Investigamos los matices de la conexión física y cómo la tecnología tiende puentes y a la vez transforma los vínculos íntimos.',
   },
   {
-    image: articleEmpowerment,
     category: 'Empoderamiento',
-    title: 'Futuros Luminosos: El Poder Femenino Reconfigurado',
-    excerpt: 'Trazamos el paisaje evolutivo de la agencia femenina, desde la supresión histórica hasta una nueva era de liberación tecnológica.',
-    delay: '0.24s',
+    titulo: 'Futuros Luminosos: El Poder Femenino Reconfigurado',
+    extracto: 'Trazamos el paisaje evolutivo de la agencia femenina, desde la supresión histórica hasta una nueva era de liberación tecnológica.',
   },
 ];
 
 const ArticlesSection = () => {
+  const [articles, setArticles] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch('/api/articles')
+      .then((r) => r.json())
+      .then((data) => {
+        setArticles(Array.isArray(data) && data.length > 0 ? data.slice(0, 3) : FALLBACK_ARTICLES);
+      })
+      .catch(() => setArticles(FALLBACK_ARTICLES))
+      .finally(() => setLoading(false));
+  }, []);
+
+  const displayArticles = loading ? FALLBACK_ARTICLES : articles;
+
   return (
     <section className="py-20 px-6">
       <div className="text-center mb-16">
@@ -39,17 +46,31 @@ const ArticlesSection = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-10 max-w-6xl mx-auto">
-        {articles.map((article) => (
-          <article key={article.title} className="group cursor-pointer animate-fade-up" style={{ animationDelay: article.delay }}>
-            <div className="relative overflow-hidden mb-6">
-              <img src={article.image} alt={article.title} className="w-full h-72 object-cover transition-transform duration-700 group-hover:scale-105" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-            </div>
-            <p className="text-[9px] tracking-[0.5em] uppercase text-primary font-body mb-3 font-medium">{article.category}</p>
-            <h3 className="font-editorial text-xl md:text-2xl font-light text-foreground mb-3 group-hover:text-primary transition-colors duration-300" style={{ lineHeight: '1.25' }}>
-              {article.title}
+        {displayArticles.map((article, idx) => (
+          <article
+            key={article.id || article.titulo}
+            className="group cursor-pointer animate-fade-up"
+            style={{ animationDelay: `${idx * 0.12}s` }}
+            onClick={() => article.id && (window.location.href = `/editor#${article.id}`)}
+          >
+            <div className="mb-4 h-1 bg-gradient-to-r from-primary/60 to-transparent" />
+            <p className="text-[9px] tracking-[0.5em] uppercase text-primary font-body mb-3 font-medium">
+              {article.tema || article.category || 'La Figa'}
+            </p>
+            <h3
+              className="font-editorial text-xl md:text-2xl font-light text-foreground mb-3 group-hover:text-primary transition-colors duration-300"
+              style={{ lineHeight: '1.25' }}
+            >
+              {article.titulo}
             </h3>
-            <p className="text-xs font-body font-light text-muted-foreground leading-relaxed">{article.excerpt}</p>
+            <p className="text-xs font-body font-light text-muted-foreground leading-relaxed">
+              {article.extracto}
+            </p>
+            {article.fecha && (
+              <p className="mt-4 text-[9px] tracking-[0.3em] uppercase text-muted-foreground/50 font-body">
+                {article.fecha}
+              </p>
+            )}
           </article>
         ))}
       </div>
