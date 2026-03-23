@@ -1,4 +1,9 @@
 import { useEffect, useState } from 'react';
+import articleBody from '@/assets/article-bodyart.jpg';
+import articleIntimacy from '@/assets/article-intimacy.jpg';
+import articleEmpowerment from '@/assets/article-empowerment.jpg';
+
+const COVER_IMAGES = [articleBody, articleIntimacy, articleEmpowerment];
 
 const FALLBACK_ARTICLES = [
   {
@@ -53,7 +58,14 @@ const ArticlesSection = () => {
             style={{ animationDelay: `${idx * 0.12}s` }}
             onClick={() => article.id && (window.location.href = `/editor#${article.id}`)}
           >
-            <div className="mb-4 h-1 bg-gradient-to-r from-primary/60 to-transparent" />
+            <div className="relative overflow-hidden mb-6">
+              <img
+                src={COVER_IMAGES[idx % COVER_IMAGES.length]}
+                alt={article.titulo}
+                className="w-full h-72 object-cover transition-transform duration-700 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            </div>
             <p className="text-[9px] tracking-[0.5em] uppercase text-primary font-body mb-3 font-medium">
               {article.tema || article.category || 'La Figa'}
             </p>
