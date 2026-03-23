@@ -15,12 +15,12 @@ export default defineConfig({
     outDir: 'dist',
   },
   server: {
-    // En desarrollo: proxy las llamadas /api al backend FastAPI
+    // En desarrollo: proxy al backend FastAPI
     proxy: {
-      '/api': {
-        target: 'http://localhost:8080',
-        changeOrigin: true,
-      },
+      '/api': { target: 'http://localhost:8080', changeOrigin: true },
+      '/editor': { target: 'http://localhost:8080', changeOrigin: true },
+      '/static': { target: 'http://localhost:8080', changeOrigin: true },
+      '/assets': { target: 'http://localhost:8080', changeOrigin: true },
     },
   },
 });
