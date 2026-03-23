@@ -96,12 +96,12 @@ Adapta el contenido editorial a formatos optimizados para Instagram, Twitter/X y
 - [x] Agente RAG Recommender
 - [x] Sistema de embeddings con ChromaDB
 - [x] Orquestador ADK (SequentialAgent + ParallelAgent)
-- [ ] Agente Reader Chatbot
-- [ ] Agente Social Publisher
-- [ ] Integración MCP
-- [ ] Datos de ejemplo para RAG
+- [x] Agente Reader Chatbot
+- [x] Agente Social Publisher
+- [x] Integración MCP (context manager conectado al chatbot)
+- [x] Datos de ejemplo para RAG (10 artículos base)
+- [x] Herramientas compartidas (tools/fecha.py)
 - [ ] Interfaz Streamlit
-- [ ] Herramientas compartidas (tools/)
 
 ---
 
@@ -120,7 +120,7 @@ pip install -r requirements.txt
 
 # 4. Configurar variables de entorno
 cp .env.example .env
-# Edita .env con tu GOOGLE_API_KEY
+# Edita .env con tu GOOGLE_CLOUD_PROJECT
 ```
 
 ---
@@ -147,7 +147,8 @@ la_figa/
 ├── mcp/                  # Model Context Protocol
 ├── tools/                # Herramientas compartidas
 ├── data/                 # Artículos base y ChromaDB
-├── ui/                   # Interfaz Streamlit
+├── ui/                   # Backend FastAPI + HTML estático (editor completo)
+├── frontend/             # Landing page React (artículos reales desde /api)
 └── main.py               # Punto de entrada
 ```
 
@@ -165,7 +166,7 @@ Concepto: flor de loto con circuitos integrados — naturaleza femenina potencia
 - **Google Auth Platform** — login de lectoras con cuenta Google para personalizar el chatbot y guardar historial de conversaciones
 - **Base de datos persistente** — migrar el contexto MCP de memoria a Firestore o PostgreSQL
 - **API REST** — exponer los agentes como endpoints para integrar con otras plataformas
-- **Despliegue en Cloud Run** — hacer la app pública con Streamlit desplegado en Google Cloud
+- **Despliegue en Cloud Run** — `terraform apply` despliega la app completa (FastAPI + React) en Google Cloud
 - **Agente moderador** — revisar contenido generado antes de publicar
 - **Newsletter automatizada** — pipeline semanal que genera y envía contenido por email
 

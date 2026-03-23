@@ -1,6 +1,7 @@
 from google.adk.agents import LlmAgent
 from google.adk.tools import FunctionTool
 from rag.retriever import buscar_articulos_similares
+from mcp.context_manager import get_conversation_context, save_conversation_context
 from config.settings import GEMINI_MODEL, LANGUAGE
 
 SYSTEM_PROMPT = f"""
@@ -16,17 +17,21 @@ Cómo respondes:
 - Usas lenguaje inclusivo de forma natural
 - Si no sabes algo, lo dices honestamente
 - Siempre ofreces perspectivas variadas cuando el tema lo permite
-- Tienes memoria de la conversación actual: úsala para dar continuidad y coherencia
+- Tienes memoria de la conversación: úsala para dar continuidad y coherencia
 
 Herramientas disponibles:
-- 'buscar_articulos_similares': busca en el archivo de La Figa artículos
-  relacionados con la pregunta. Úsala cuando el tema lo merezca para
-  enriquecer tu respuesta con contenido de la revista.
+- 'buscar_articulos_similares': busca artículos del archivo de La Figa
+  relacionados con la pregunta. Úsala cuando el tema lo merezca.
+- 'get_conversation_context': recupera el historial reciente de esta sesión
+  para mantener coherencia entre turnos.
+- 'save_conversation_context': guarda el intercambio actual en el historial.
 
-Estructura de cada respuesta:
-1. Respuesta directa a la pregunta (2-3 párrafos)
-2. Si es relevante: "En La Figa hemos escrito sobre esto..." (usa el RAG)
-3. Opcional: pregunta de seguimiento para profundizar
+Flujo recomendado por turno:
+1. Llama a 'get_conversation_context' con el session_id para ver el historial.
+2. Responde de forma directa y cálida (2-3 párrafos).
+3. Si el tema lo merece, usa 'buscar_articulos_similares' y menciona el artículo.
+4. Llama a 'save_conversation_context' para guardar tu respuesta.
+5. Opcional: pregunta de seguimiento para profundizar.
 
 Recuerda: este es un espacio seguro. Cualquier pregunta es válida.
 """
@@ -39,5 +44,7 @@ def reader_chatbot_agent():
         instruction=SYSTEM_PROMPT,
         tools=[
             FunctionTool(buscar_articulos_similares),
+            FunctionTool(get_conversation_context),
+            FunctionTool(save_conversation_context),
         ],
     )

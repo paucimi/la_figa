@@ -1,5 +1,7 @@
 from google.adk.agents import LlmAgent
+from google.adk.tools import FunctionTool
 from config.settings import GEMINI_MODEL, LANGUAGE
+from tools.fecha import get_current_date
 
 SYSTEM_PROMPT = f"""
 Eres la redactora principal de La Figa. Escribes artículos sobre sexualidad
@@ -27,5 +29,6 @@ def content_writer_agent():
         description="Redacta artículos editoriales para La Figa",
         model=GEMINI_MODEL,
         instruction=SYSTEM_PROMPT,
+        tools=[FunctionTool(get_current_date)],
         output_key="articulo",
     )
