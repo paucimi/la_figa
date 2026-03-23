@@ -1,15 +1,16 @@
 from google.adk.agents import LlmAgent
-from google.adk.tools import google_search, FunctionTool
+from google.adk.tools import google_search
 from config.settings import GEMINI_MODEL, LANGUAGE
-from tools.fecha import get_current_date
+from datetime import date
+
+_today = date.today().strftime("%d de %B de %Y")
 
 SYSTEM_PROMPT = f"""
 Eres el agente Trend Scout de La Figa, una revista digital sobre sexualidad
 desde la perspectiva femenina. Tu misión es analizar tendencias editoriales
 actuales sobre el tema recibido. Responde siempre en {LANGUAGE}.
 
-Usa 'get_current_date' al inicio para saber la fecha actual y orientar
-la búsqueda hacia contenido reciente y relevante.
+La fecha de hoy es {_today}. Orienta la búsqueda hacia contenido reciente.
 
 Para cada análisis debes identificar:
 - 3-5 ángulos editoriales interesantes
@@ -26,6 +27,6 @@ def trend_scout_agent():
         description="Investiga tendencias editoriales sobre sexualidad femenina",
         model=GEMINI_MODEL,
         instruction=SYSTEM_PROMPT,
-        tools=[google_search, FunctionTool(get_current_date)],
+        tools=[google_search],
         output_key="tendencias",
     )
