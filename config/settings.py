@@ -1,4 +1,5 @@
 import os
+import urllib.request
 import vertexai
 from dotenv import load_dotenv
 
@@ -9,6 +10,18 @@ GOOGLE_CLOUD_PROJECT = os.getenv("GOOGLE_CLOUD_PROJECT")
 #   europe-west1  → menor latencia desde Europa (recomendado si tu audiencia es europea)
 #   us-central1   → menor latencia desde EEUU
 GOOGLE_CLOUD_LOCATION = os.getenv("GOOGLE_CLOUD_LOCATION", "europe-west1")
+
+if not GOOGLE_CLOUD_PROJECT:
+    # En Cloud Run el project ID está disponible en el servidor de metadatos de GCP
+    try:
+        req = urllib.request.Request(
+            "http://metadata.google.internal/computeMetadata/v1/project/project-id",
+            headers={"Metadata-Flavor": "Google"},
+        )
+        with urllib.request.urlopen(req, timeout=2) as resp:
+            GOOGLE_CLOUD_PROJECT = resp.read().decode().strip()
+    except Exception:
+        pass
 
 if not GOOGLE_CLOUD_PROJECT:
     raise ValueError(
